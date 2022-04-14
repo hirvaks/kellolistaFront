@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+
+  const [json, setJson] = useState([])
+
+  useEffect(() => {
+    fetchWatches()
+  }, []) // [] -> ajetaan vain ensimmäisellä renderöinnillä, ilman rajoitus joutuu ikuiseen looppiin
+
+  const fetchWatches = () => {
+    fetch("https://akseli-watch-list.herokuapp.com/api/watches")
+    .then(response => response.json())
+    .then(data => setJson(data._embedded.watches))
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>{json}</p>
     </div>
   );
 }
